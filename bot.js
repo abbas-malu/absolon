@@ -91,6 +91,9 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 let media = MessageMedia.fromFilePath(`bot.jpg`);
+let qry_word;
+let url =
+  "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=<qry_word>&utf8=&format=json";
 
 //  __  __ ______  _____ _____         _____ ______
 // |  \/  |  ____|/ ____/ ____|  /\   / ____|  ____|
@@ -99,19 +102,21 @@ let media = MessageMedia.fromFilePath(`bot.jpg`);
 // | |  | | |____ ____) |___) / ____ \ |__| | |____
 // |_|  |_|______|_____/_____/_/    \_\_____|______|
 client.on("message", async (message) => {
+  
+  let greeting = message.body.toLowerCase().split(" ");
   // greeting message sender
   if (
     message.type != "list_response" &&
     message.from.toLowerCase().includes("g.us") == false &&
-    (message.body.toLowerCase().includes("hello") ||
-      message.body.toLowerCase().includes("salaam") ||
-      message.body.toLowerCase().includes("salam") ||
-      // message.body.toLowerCase().includes("hy") ||
-      message.body.toLowerCase().includes("hi", 0) ||
-      message.body.toLowerCase().includes("abbas") ||
-      message.body.toLowerCase().includes("hey") ||
-      message.body.toLowerCase().includes("help") ||
-      message.body.toLowerCase().includes("menu"))
+    (greeting.includes("hello") ||
+      greeting.includes("salaam") ||
+      greeting.includes("salam") ||
+      // greeting.includes("hy") ||
+      greeting.includes("hi", 0) ||
+      greeting.includes("abbas") ||
+      greeting.includes("hey") ||
+      greeting.includes("help") ||
+      greeting.includes("menu"))
   ) {
     client.sendMessage(
       message.from,
@@ -223,9 +228,11 @@ Wait Wait!! More features soon.....⏳⌛
   //  | |    | |____ / ____ \| |  | |__| | | \ \| |____ ____) |
   //  |_|    |______/_/    \_\_|   \____/|_|  \_\______|_____/
   let query_list = message.body.toLowerCase().split(" ");
+  // console.log(query_list);
   // dictionary FEATURES
   if (query_list.includes("meaning")) {
     qry_word = message.body
+      .toLowerCase()
       .replace(/what/i, "")
       .replace(/meaning/i, "")
       .replaceAll(/ /g, "")
@@ -237,10 +244,11 @@ Wait Wait!! More features soon.....⏳⌛
     // fetch meaning response
     let results = "";
     let defCount = 0;
-    const response = await fetch(
+    let response = await fetch(
       `https://api.dictionaryapi.dev/api/v2/entries/en/${qry_word}`
     );
-    const data = await response.json();
+    let data = await response.json();
+    // console.log(data);
     if (data.title == undefined) {
       let meanings = data[0].meanings[0].definitions;
       meanings.forEach((element) => {
@@ -259,7 +267,7 @@ Example ${defCount} : ${element.example}\n`;
   }
 
   // searching features
-  else if (query_list.includes("search" && query_list.includes("for"))) {
+  else if ((query_list.includes("search") && query_list.includes("for")) || (query_list.includes("what") && query_list.includes("is"))) {
     qry_word = message.body
       .replace(/what/i, "")
       .replace(/meaning/i, "")
@@ -269,13 +277,14 @@ Example ${defCount} : ${element.example}\n`;
       .replace(/of/i, "")
       .replace(/search/i, "")
       .replace(/for/i, "");
-    console.log(qry_word);
+    // console.log(qry_word);
 
     // fetch meaning response
     let results = "Heres's what i found for you: \n";
     let defCount = 0;
-    const response = await fetch(url.replace("<qry_word>", qry_word));
-    const data = await response.json();
+    let response = await fetch(url.replace("<qry_word>", qry_word));
+    let data = await response.json();
+    // console.log(data);
     // console.log(data.title)
     if (data.query.searchinfo.totalhits != 0) {
       let searchResults = data.query.search;
@@ -296,25 +305,32 @@ Example ${defCount} : ${element.example}\n`;
 
   // weather search
   else if (query_list.includes("weather")) {
-    let query_list = (qry_word = message.body
+    let index = query_list.indexOf("in");
+    if (index > -1) {
+      // only splice array when item is found
+      query_list.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    let qry_word = query_list
+      .join(" ")
+      .replace(/weather/i, "")
       .replace(/what/i, "")
       .replace(/meaning/i, "")
-      .replaceAll(/ /g, "")
+      // .replaceAll(/ /g, "")
       // .replace(/is/i, "")
       .replace(/the/i, "")
       .replace(/search/i, "")
-      .replace(/weather/i, "")
       // .replace(/in/i, "")
       .replace(/for/i, "")
-      .replace(/of/i, ""));
-
+      .replace(/of/i, "");
+    // console.log(qry_word);
     // fetch meaning response
     let results = "";
     let defCount = 0;
-    const response = await fetch(
+    let response = await fetch(
       `https://api.openweathermap.org/data/2.5/weather?q=${qry_word}&appid=70121c1eaf3d32f16cef18f3b0ee3b5c`
     );
-    const data = await response.json();
+    let data = await response.json();
+    // console.log(data);
     if (data.cod == "200") {
       let weather_id = data.weather[0].id;
       let weather_emoji = "";
@@ -333,11 +349,12 @@ Example ${defCount} : ${element.example}\n`;
       } else {
         weather_emoji = "☀️☀️☀️";
       }
-      results = `${qry_word} City Weather
+      let city = qry_word.charAt(0).toUpperCase() + qry_word.slice(1)
+      results = `weather of ${city}
 ${data.weather[0].main} ${weather_emoji}
 ${data.weather[0].description}
-Temprature : ${data.main.temp - 273}`;
-      message.react("👍");
+Temprature : ${Math.round(data.main.temp - 273)} °C`
+      message.react(weather_emoji[0])
       message.reply(results);
     } else {
       message.reply("invalid city.");
