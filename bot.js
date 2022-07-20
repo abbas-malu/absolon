@@ -102,7 +102,6 @@ let url =
 // | |  | | |____ ____) |___) / ____ \ |__| | |____
 // |_|  |_|______|_____/_____/_/    \_\_____|______|
 client.on("message", async (message) => {
-  
   let greeting = message.body.toLowerCase().split(" ");
   // greeting message sender
   if (
@@ -231,15 +230,56 @@ Wait Wait!! More features soon.....⏳⌛
   // console.log(query_list);
   // dictionary FEATURES
   if (query_list.includes("meaning")) {
-    qry_word = message.body
-      .toLowerCase()
-      .replace(/what/i, "")
-      .replace(/meaning/i, "")
-      .replaceAll(/ /g, "")
-      .replace(/is/i, "")
-      .replace(/the/i, "")
-      .replace(/search/i, "")
-      .replace(/of/i, "");
+    let index = query_list.indexOf("in");
+    if (index > -1) {
+      // only splice array when item is found
+      query_list.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    index = query_list.indexOf("is");
+    if (index > -1) {
+      // only splice array when item is found
+      query_list.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    index = query_list.indexOf("the");
+    if (index > -1) {
+      // only splice array when item is found
+      query_list.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    index = query_list.indexOf("for");
+    if (index > -1) {
+      // only splice array when item is found
+      query_list.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    index = query_list.indexOf("the");
+    if (index > -1) {
+      // only splice array when item is found
+      query_list.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    index = query_list.indexOf("meaning");
+    if (index > -1) {
+      // only splice array when item is found
+      query_list.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    index = query_list.indexOf("what");
+    if (index > -1) {
+      // only splice array when item is found
+      query_list.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    index = query_list.indexOf("search");
+    if (index > -1) {
+      // only splice array when item is found
+      query_list.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    index = query_list.indexOf("who");
+    if (index > -1) {
+      // only splice array when item is found
+      query_list.splice(index, 1); // 2nd parameter means remove one item only
+    }index = query_list.indexOf("of");
+    if (index > -1) {
+      // only splice array when item is found
+      query_list.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    qry_word = qry_word = qry_word = query_list.join(" ").trim();
 
     // fetch meaning response
     let results = "";
@@ -267,16 +307,57 @@ Example ${defCount} : ${element.example}\n`;
   }
 
   // searching features
-  else if ((query_list.includes("search") && query_list.includes("for")) || (query_list.includes("what") && query_list.includes("is"))) {
-    qry_word = message.body
-      .replace(/what/i, "")
-      .replace(/meaning/i, "")
-      .replaceAll(/ /g, "")
-      .replace(/is/i, "")
-      .replace(/the/i, "")
-      .replace(/of/i, "")
-      .replace(/search/i, "")
-      .replace(/for/i, "");
+  else if (
+    (query_list.includes("search") && query_list.includes("for")) ||
+    (query_list.includes("what") && query_list.includes("is")) ||
+    (query_list.includes("who") && query_list.includes("is"))
+  ) {
+    let index = query_list.indexOf("in");
+    if (index > -1) {
+      // only splice array when item is found
+      query_list.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    index = query_list.indexOf("is");
+    if (index > -1) {
+      // only splice array when item is found
+      query_list.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    index = query_list.indexOf("the");
+    if (index > -1) {
+      // only splice array when item is found
+      query_list.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    index = query_list.indexOf("for");
+    if (index > -1) {
+      // only splice array when item is found
+      query_list.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    index = query_list.indexOf("the");
+    if (index > -1) {
+      // only splice array when item is found
+      query_list.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    index = query_list.indexOf("meaning");
+    if (index > -1) {
+      // only splice array when item is found
+      query_list.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    index = query_list.indexOf("what");
+    if (index > -1) {
+      // only splice array when item is found
+      query_list.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    index = query_list.indexOf("search");
+    if (index > -1) {
+      // only splice array when item is found
+      query_list.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    index = query_list.indexOf("who");
+    if (index > -1) {
+      // only splice array when item is found
+      query_list.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    qry_word = qry_word = query_list.join(" ").trim();
     // console.log(qry_word);
 
     // fetch meaning response
@@ -310,18 +391,52 @@ Example ${defCount} : ${element.example}\n`;
       // only splice array when item is found
       query_list.splice(index, 1); // 2nd parameter means remove one item only
     }
-    let qry_word = query_list
-      .join(" ")
-      .replace(/weather/i, "")
-      .replace(/what/i, "")
-      .replace(/meaning/i, "")
-      // .replaceAll(/ /g, "")
-      // .replace(/is/i, "")
-      .replace(/the/i, "")
-      .replace(/search/i, "")
-      // .replace(/in/i, "")
-      .replace(/for/i, "")
-      .replace(/of/i, "");
+    index = query_list.indexOf("weather");
+    if (index > -1) {
+      // only splice array when item is found
+      query_list.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    index = query_list.indexOf("is");
+    if (index > -1) {
+      // only splice array when item is found
+      query_list.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    index = query_list.indexOf("the");
+    if (index > -1) {
+      // only splice array when item is found
+      query_list.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    index = query_list.indexOf("for");
+    if (index > -1) {
+      // only splice array when item is found
+      query_list.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    index = query_list.indexOf("the");
+    if (index > -1) {
+      // only splice array when item is found
+      query_list.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    index = query_list.indexOf("meaning");
+    if (index > -1) {
+      // only splice array when item is found
+      query_list.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    index = query_list.indexOf("what");
+    if (index > -1) {
+      // only splice array when item is found
+      query_list.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    index = query_list.indexOf("search");
+    if (index > -1) {
+      // only splice array when item is found
+      query_list.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    index = query_list.indexOf("who");
+    if (index > -1) {
+      // only splice array when item is found
+      query_list.splice(index, 1); // 2nd parameter means remove one item only
+    }
+    let qry_word = query_list.join(" ").trim();
     // console.log(qry_word);
     // fetch meaning response
     let results = "";
@@ -349,12 +464,12 @@ Example ${defCount} : ${element.example}\n`;
       } else {
         weather_emoji = "☀️☀️☀️";
       }
-      let city = qry_word.charAt(0).toUpperCase() + qry_word.slice(1)
-      results = `weather of ${city}
+      let city = qry_word.charAt(0).toUpperCase() + qry_word.slice(1);
+      results = `Weather of *${city}*
 ${data.weather[0].main} ${weather_emoji}
 ${data.weather[0].description}
-Temprature : ${Math.round(data.main.temp - 273)} °C`
-      message.react(weather_emoji[0])
+Temprature : ${Math.round(data.main.temp - 273)} °C`;
+      message.react(weather_emoji[0]);
       message.reply(results);
     } else {
       message.reply("invalid city.");
