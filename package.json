@@ -1,0 +1,23 @@
+{
+  "name": "whatswebrev",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "convert-array-to-csv": "^2.0.0",
+    "csv": "^6.1.5",
+    "csv-stringify": "^6.1.3",
+    "csvtojson": "^2.0.10",
+    "mongoose": "^6.4.4",
+    "node-fetch": "^2.6.7",
+    "qrcode-terminal": "^0.12.0",
+    "request": "^2.88.2",
+    "whatsapp-web.js": "^1.17.1",
+    "wwebjs-mongo": "^1.1.0"
+  }
+}
